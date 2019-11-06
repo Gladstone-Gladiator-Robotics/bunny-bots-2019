@@ -7,17 +7,13 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -26,15 +22,15 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
  * project.
  * Spookaween peeps!!! Splappyween Spoopy!!!
  */
-public class Robot extends IterativeRobot {
+public class Robot extends TimedRobot {
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
-  private Talon flappy = new Talon(1);
   private Joystick controller = new Joystick(0);
+  private JoystickButton leftJoystickButton = new JoystickButton(controller, 9);
   private Talon leftDriveMotor = new Talon(0);
-  private Talon rightDriveMotor = new Talon(2);
+  private Talon rightDriveMotor = new Talon(1);
   private DifferentialDrive driveTrain = new DifferentialDrive(leftDriveMotor, rightDriveMotor); 
   /**
    * This function is run when the robot is first started up and should be
@@ -49,7 +45,17 @@ public class Robot extends IterativeRobot {
 
  
   @Override
-  public void robotPeriodic() {
+  public void robotPeriodic(){
+  }
+
+  public void teleopDrivePeriodic(){
+    double speed = 0.7;
+    if(leftJoystickButton.get()){
+      speed = 1;
+    }
+    driveTrain.arcadeDrive(
+      speed * -controller.getRawAxis(1),
+      controller.getRawAxis(0));
   }
   
   @Override
@@ -81,6 +87,7 @@ public class Robot extends IterativeRobot {
    */
   @Override
   public void teleopPeriodic() {
+    teleopDrivePeriodic();
   }
 
   /**
