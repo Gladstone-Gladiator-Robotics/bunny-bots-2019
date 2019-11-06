@@ -10,7 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.smartdashboard.talon;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -24,15 +24,18 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
  * documentation. If you change the name of this class or the package after
  * creating this project, you must also update the build.gradle file in the
  * project.
+ * Spookaween peeps!!! Splappyween Spoopy!!!
  */
 public class Robot extends IterativeRobot {
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
-  private flappy = new talon(1);
-  private controller = new Joystick(0);
-  
+  private Talon flappy = new Talon(1);
+  private Joystick controller = new Joystick(0);
+  private Talon leftDriveMotor = new Talon(0);
+  private Talon rightDriveMotor = new Talon(2);
+  private DifferentialDrive driveTrain = new DifferentialDrive(leftDriveMotor, rightDriveMotor); 
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -47,7 +50,6 @@ public class Robot extends IterativeRobot {
  
   @Override
   public void robotPeriodic() {
-    DifferentialDrive()
   }
   
   @Override
