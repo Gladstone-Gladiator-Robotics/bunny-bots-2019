@@ -28,7 +28,17 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   private Joystick controller = new Joystick(0);
-  private JoystickButton leftJoystickButton = new JoystickButton(controller, 9);
+  private JoystickButton 
+                        aButton = new JoystickButton(controller, 1),
+                        bButton = new JoystickButton(controller, 2),
+                        xButton = new JoystickButton(controller, 3),
+                        yButton = new JoystickButton(controller, 4),
+                        leftBumper = new JoystickButton(controller, 5),
+                        rightBumper = new JoystickButton(controller, 6),
+                        backButton = new JoystickButton(controller, 7), //left center button
+                        startButton = new JoystickButton(controller, 8), //right center button
+                        leftJoystickButton = new JoystickButton(controller, 9),
+                        rightJoystickButton = new JoystickButton(controller, 10);
   private Talon leftDriveMotor = new Talon(0);
   private Talon rightDriveMotor = new Talon(1);
   private DifferentialDrive driveTrain = new DifferentialDrive(leftDriveMotor, rightDriveMotor); 
