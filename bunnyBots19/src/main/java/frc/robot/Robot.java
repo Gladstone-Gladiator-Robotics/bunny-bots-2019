@@ -20,7 +20,6 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
  * documentation. If you change the name of this class or the package after
  * creating this project, you must also update the build.gradle file in the
  * project.
- * Spookaween peeps!!! Splappyween Spoopy!!!
  */
 public class Robot extends TimedRobot {
   private static final String kDefaultAuto = "Default";
