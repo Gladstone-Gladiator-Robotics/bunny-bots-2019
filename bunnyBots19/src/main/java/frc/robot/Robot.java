@@ -70,19 +70,16 @@ public class Robot extends TimedRobot {
 
   public void teleopIntakePeriodic(){
     
-    if (aButton.get() ){
+    if(bButton.get() ){
+      spinManip.set(-1);
+    }
+    else if (aButton.get() ){
       spinManip.set(1);
     }
     else{
       spinManip.set(0);
     }
 
-    if(bButton.get() ){
-      spinManip.set(-1);
-    }
-    else{
-      spinManip.set(0);
-    }
   }
   
   @Override
