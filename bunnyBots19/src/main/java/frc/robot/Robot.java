@@ -40,6 +40,7 @@ public class Robot extends TimedRobot {
                         rightJoystickButton = new JoystickButton(controller, 10);
   private Talon leftDriveMotor = new Talon(0);
   private Talon rightDriveMotor = new Talon(1);
+  private Talon spinManip = new Talon(2);
   private DifferentialDrive driveTrain = new DifferentialDrive(leftDriveMotor, rightDriveMotor); 
   /**
    * This function is run when the robot is first started up and should be
@@ -65,6 +66,23 @@ public class Robot extends TimedRobot {
     driveTrain.arcadeDrive(
       speed * -controller.getRawAxis(1),
       controller.getRawAxis(0));
+  }
+
+  public void teleopIntakePeriodic(){
+    
+    if (aButton.get() ){
+      spinManip.set(1);
+    }
+    else{
+      spinManip.set(0);
+    }
+
+    if(bButton.get() ){
+      spinManip.set(-1);
+    }
+    else{
+      spinManip.set(0);
+    }
   }
   
   @Override
@@ -97,6 +115,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     teleopDrivePeriodic();
+    teleopIntakePeriodic();
   }
 
   /**
