@@ -41,6 +41,7 @@ public class Robot extends TimedRobot {
   private Talon leftDriveMotor = new Talon(0);
   private Talon rightDriveMotor = new Talon(1);
   private Talon spinManip = new Talon(2);
+  private Talon upDownManip = new Talon(3);
   private DifferentialDrive driveTrain = new DifferentialDrive(leftDriveMotor, rightDriveMotor); 
   /**
    * This function is run when the robot is first started up and should be
@@ -82,6 +83,18 @@ public class Robot extends TimedRobot {
 
   }
   
+  public void teleopUpDownPeriodic(){
+    if(leftBumper.get() ){
+      upDownManip.set(-1);
+    }
+    else if (rightBumper.get() ){
+      upDownManip.set(1);
+    }
+    else{
+      upDownManip.set(0);
+    }
+
+  }
   @Override
   public void autonomousInit() {
     m_autoSelected = m_chooser.getSelected();
@@ -113,6 +126,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     teleopDrivePeriodic();
     teleopIntakePeriodic();
+    teleopUpDownPeriodic();
   }
 
   /**
