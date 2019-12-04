@@ -12,9 +12,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -27,18 +28,7 @@ public class Robot extends TimedRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
-  private Joystick controller = new Joystick(0);
-  private JoystickButton 
-                        aButton = new JoystickButton(controller, 1),
-                        bButton = new JoystickButton(controller, 2),
-                        xButton = new JoystickButton(controller, 3),
-                        yButton = new JoystickButton(controller, 4),
-                        leftBumper = new JoystickButton(controller, 5),
-                        rightBumper = new JoystickButton(controller, 6),
-                        backButton = new JoystickButton(controller, 7), //left center button
-                        startButton = new JoystickButton(controller, 8), //right center button
-                        leftJoystickButton = new JoystickButton(controller, 9),
-                        rightJoystickButton = new JoystickButton(controller, 10);
+  private XboxController controller = new XboxController(0);
   private Talon leftDriveMotor = new Talon(0);
   private Talon rightDriveMotor = new Talon(1);
   private Talon spinManip = new Talon(2);
@@ -64,7 +54,7 @@ public class Robot extends TimedRobot {
 
   public void teleopDrivePeriodic(){
     double speed = 0.7;
-    if(leftJoystickButton.get()){
+    if(controller.getStickButton(Hand.kLeft)){
       speed = 1;
     }
     driveTrain.arcadeDrive(
@@ -74,10 +64,10 @@ public class Robot extends TimedRobot {
 
   public void teleopIntakePeriodic(){
     
-    if(bButton.get() ){
+    if(controller.getBButton()){
       spinManip.set(-1);
     }
-    else if (aButton.get() ){
+    else if (controller.getAButton()){
       spinManip.set(1);
     }
     else{
@@ -87,16 +77,15 @@ public class Robot extends TimedRobot {
   }
   
   public void teleopUpDownPeriodic(){
-    if(leftBumper.get() && !bottomLimitSwitch.get()){
+    if(controller.getBumper(Hand.kLeft) && !bottomLimitSwitch.get()){
       upDownManip.set(-1);
     }
-    else if (rightBumper.get() && !topLimitSwitch.get() ){
+    else if (controller.getBumper(Hand.kRight) && !topLimitSwitch.get() ){
       upDownManip.set(1);
     }
     else{
       upDownManip.set(0);
     }
-    
   }
   @Override
   public void autonomousInit() {
