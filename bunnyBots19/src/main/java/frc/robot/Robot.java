@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -42,6 +43,8 @@ public class Robot extends TimedRobot {
   private Talon rightDriveMotor = new Talon(1);
   private Talon spinManip = new Talon(2);
   private Talon upDownManip = new Talon(3);
+  private DigitalInput topLimitSwitch = new DigitalInput(0);
+  private DigitalInput bottomLimitSwitch = new DigitalInput(1);
   private DifferentialDrive driveTrain = new DifferentialDrive(leftDriveMotor, rightDriveMotor); 
   /**
    * This function is run when the robot is first started up and should be
@@ -54,7 +57,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
   }
 
- 
+
   @Override
   public void robotPeriodic(){
   }
@@ -84,16 +87,16 @@ public class Robot extends TimedRobot {
   }
   
   public void teleopUpDownPeriodic(){
-    if(leftBumper.get() ){
+    if(leftBumper.get() && !bottomLimitSwitch.get()){
       upDownManip.set(-1);
     }
-    else if (rightBumper.get() ){
+    else if (rightBumper.get() && !topLimitSwitch.get() ){
       upDownManip.set(1);
     }
     else{
       upDownManip.set(0);
     }
-
+    
   }
   @Override
   public void autonomousInit() {
