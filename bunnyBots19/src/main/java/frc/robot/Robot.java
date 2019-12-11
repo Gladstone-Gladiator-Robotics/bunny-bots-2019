@@ -99,14 +99,18 @@ public class Robot extends TimedRobot {
     // autoSelected = SmartDashboard.getString("Auto Selector",
     // defaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
+    autonomousCycles = 0;
   }
+
+  private int autonomousCycles = 0;
 
   /**
    * This function is called periodically during autonomous.
    */
   @Override
   public void autonomousPeriodic() {
-    switch (m_autoSelected) {
+    autonomousCycles = autonomousCycles + 1;
+   /* switch (m_autoSelected) {
       case kCustomAuto:
         // Put custom auto code here
         break;
@@ -114,7 +118,14 @@ public class Robot extends TimedRobot {
       default:
         // Put default auto code here
         break;
+    }*/
+    if (autonomousCycles * 20 <= 5 * 1000) {
+      driveTrain.arcadeDrive(0.7, 0);
     }
+    else {
+      driveTrain.arcadeDrive(0, 0);
+    }
+    
   }
 
   /**
