@@ -35,7 +35,8 @@ public class Robot extends TimedRobot {
   private Talon upDownManip = new Talon(3);
   private DigitalInput topLimitSwitch = new DigitalInput(0);
   private DigitalInput bottomLimitSwitch = new DigitalInput(1);
-  private DifferentialDrive driveTrain = new DifferentialDrive(leftDriveMotor, rightDriveMotor); 
+  private DifferentialDrive driveTrain = new DifferentialDrive(leftDriveMotor, rightDriveMotor);
+  private Boolean intakeOn = false; 
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -63,17 +64,22 @@ public class Robot extends TimedRobot {
   }
 
   public void teleopIntakePeriodic(){
-    
-    if(controller.getBButton()){
+    // TODO: convert this to a Command - https://github.com/FRCTeam1719/BunnyBots2019/blob/master/frc/robot/commands/UseDrive.java
+    if(controller.getBButton() && intakeOn == false){
       spinManip.set(-1);
     }
-    else if (controller.getAButton()){
-      spinManip.set(1);
-    }
     else{
-      spinManip.set(0);
+      if (controller.getAButtonPressed()){
+        intakeOn = !intakeOn;
+      }
+  
+      if (intakeOn){
+        spinManip.set(1);
+      }
+      else{
+        spinManip.set(0);
+      } 
     }
-
   }
   
   public void teleopUpDownPeriodic(){
