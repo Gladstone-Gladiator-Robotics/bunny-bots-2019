@@ -12,10 +12,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.*;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -32,9 +32,6 @@ public class Robot extends TimedRobot {
   private Talon leftDriveMotor = new Talon(0);
   private Talon rightDriveMotor = new Talon(1);
   private Talon spinManip = new Talon(2);
-  private Talon upDownManip = new Talon(3);
-  private DigitalInput topLimitSwitch = new DigitalInput(0);
-  private DigitalInput bottomLimitSwitch = new DigitalInput(1);
   private DifferentialDrive driveTrain = new DifferentialDrive(leftDriveMotor, rightDriveMotor);
   private Boolean intakeOn = false; 
   /**
@@ -59,12 +56,11 @@ public class Robot extends TimedRobot {
       speed = 1;
     }
     driveTrain.arcadeDrive(
-      speed * -controller.getRawAxis(1),
-      controller.getRawAxis(0));
+      speed * -controller.getY(Hand.kLeft),
+      controller.getX(Hand.kLeft));
   }
 
   public void teleopIntakePeriodic(){
-    // TODO: convert this to a Command - https://github.com/FRCTeam1719/BunnyBots2019/blob/master/frc/robot/commands/UseDrive.java
     if(controller.getBButton() && intakeOn == false){
       spinManip.set(-1);
     }
@@ -82,17 +78,6 @@ public class Robot extends TimedRobot {
     }
   }
   
-  public void teleopUpDownPeriodic(){
-    if(controller.getBumper(Hand.kLeft) && !bottomLimitSwitch.get()){
-      upDownManip.set(-1);
-    }
-    else if (controller.getBumper(Hand.kRight) && !topLimitSwitch.get() ){
-      upDownManip.set(1);
-    }
-    else{
-      upDownManip.set(0);
-    }
-  }
   @Override
   public void autonomousInit() {
     m_autoSelected = m_chooser.getSelected();
@@ -119,11 +104,13 @@ public class Robot extends TimedRobot {
         // Put default auto code here
         break;
     }*/
-    if (autonomousCycles * 20 <= 5 * 1000) {
+    if (autonomousCycles * 20 <= 1 * 1000) {
+      spinManip.set(1);
       driveTrain.arcadeDrive(0.7, 0);
     }
     else {
       driveTrain.arcadeDrive(0, 0);
+      spinManip.set(0);
     }
     
   }
@@ -135,7 +122,6 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     teleopDrivePeriodic();
     teleopIntakePeriodic();
-    teleopUpDownPeriodic();
   }
 
   /**
