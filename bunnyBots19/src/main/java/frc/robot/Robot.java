@@ -77,8 +77,10 @@ public class Robot extends TimedRobot {
         spinManip.set(0);
       } 
     }*/
-    spinManip.set(-contoller.getTriggerAxis(Hand.kleft));
-    spinManip.set(contoller.getTriggerAxis(Hand.kright));
+    
+    spinManip.set(-controller.getTriggerAxis(Hand.kLeft));
+    spinManip.set(controller.getTriggerAxis(Hand.kRight));
+  }
   
   @Override
   public void autonomousInit() {
