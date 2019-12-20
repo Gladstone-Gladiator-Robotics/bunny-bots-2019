@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.*;
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -24,6 +25,7 @@ import edu.wpi.first.wpilibj.*;
  * project.
  */
 public class Robot extends TimedRobot {
+  
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
@@ -45,7 +47,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
   }
 
-
   @Override
   public void robotPeriodic(){
   }
@@ -56,27 +57,28 @@ public class Robot extends TimedRobot {
       speed = 1;
     }
     driveTrain.arcadeDrive(
-      speed * -controller.getY(Hand.kLeft),
-      controller.getX(Hand.kLeft));
+      speed * -controller.getX(Hand.kLeft),
+      controller.getY(Hand.kLeft));
   }
 
   public void teleopIntakePeriodic(){
-    if(controller.getBButton() && intakeOn == false){
-      spinManip.set(-1);
+  /*  if(controller.getBButton() && intakeOn == false){
+      spinManip.set(-0.4);
     }
     else{
-      if (controller.getAButtonPressed()){
+      if (controller.{
         intakeOn = !intakeOn;
       }
-  
+
       if (intakeOn){
-        spinManip.set(1);
+        spinManip.set(0.4);
       }
       else{
         spinManip.set(0);
       } 
-    }
-  }
+    }*/
+    spinManip.set(-contoller.getTriggerAxis(Hand.kleft));
+    spinManip.set(contoller.getTriggerAxis(Hand.kright));
   
   @Override
   public void autonomousInit() {
